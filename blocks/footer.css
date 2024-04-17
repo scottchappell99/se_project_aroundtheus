@@ -1,0 +1,9 @@
+.footer {
+  max-width: 880px;
+  margin: 67px auto 60px;
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: calc(21.78 / 18);
+  color: #545454;
+}

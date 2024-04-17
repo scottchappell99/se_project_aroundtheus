@@ -1,0 +1,79 @@
+.pictures {
+  max-width: 880px;
+  display: grid;
+  grid-template-areas:
+    "yosemite lake-louise bald-mountains"
+    "latemar vanoise-national-park lago-di-braies";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 17px 20px;
+  margin: 51px auto 0;
+}
+
+.pictures__group {
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  width: 282px;
+  height: 361px;
+  border-radius: 10px;
+}
+
+.pictures__yosemite {
+  grid-area: yosemite;
+}
+
+.pictures__lake-lousie {
+  grid-area: lake-louise;
+}
+
+.pictures__bald-mountains {
+  grid-area: bald-mountains;
+}
+
+.pictures__latemar {
+  grid-area: latemar;
+}
+
+.pictures__vanoise-national-park {
+  grid-area: vanoise-national-park;
+}
+
+.pictures__lago-di-braies {
+  grid-area: lago-di-braies;
+}
+
+.pictures__image {
+  width: 282px;
+  height: 282px;
+  border-radius: 10px 10px 0 0;
+}
+
+.pictures__text-box {
+  padding: 25px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pictures__caption {
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: calc(29.5 / 24);
+  white-space: nowrap;
+  max-width: 220px;
+  color: #000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 20px;
+}
+
+.pictures__like {
+  background: url("../images/heart.svg") center no-repeat;
+  width: 21px;
+  height: 18px;
+  border: none;
+  padding: 0;
+  margin-right: 20px;
+}
