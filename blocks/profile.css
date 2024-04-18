@@ -41,6 +41,10 @@
   margin: 15px 0 0 18px;
 }
 
+.profile__edit-button:hover {
+  opacity: 60%;
+}
+
 .profile__subtitle {
   grid-area: description;
   font-family: "Inter", "Arial", sans-serif;
@@ -57,4 +61,45 @@
   border: 2px solid #fff;
   padding: 0;
   margin: 0 0 0 auto;
+}
+
+.profile__add-button:hover {
+  opacity: 60%;
+}
+
+@media screen and (max-width: 580px) {
+  .profile {
+    flex-direction: column;
+  }
+
+  .profile__avatar {
+    margin: 0 0 30px 0;
+  }
+
+  .profile__information {
+    grid-template-areas:
+      ". title button"
+      "description description description";
+    justify-items: center;
+  }
+
+  .profile__name {
+    font-size: 22px;
+    line-height: calc(26.63 / 22);
+  }
+
+  .profile__edit-button {
+    margin: 0 0 0 10px;
+  }
+
+  .profile__subtitle {
+    font-size: 14px;
+    line-height: calc(16.94 / 14);
+  }
+
+  .profile__add-button {
+    width: 282px;
+    height: 50px;
+    margin: 36px auto 0;
+  }
 }
