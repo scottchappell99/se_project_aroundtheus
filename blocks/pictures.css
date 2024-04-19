@@ -15,56 +15,7 @@
   padding: 0;
 }
 
-.pictures__group {
-  padding: 0;
-  margin: 0;
-  background-color: #fff;
-  width: 282px;
-  height: 361px;
-  border-radius: 10px;
-}
-
-.pictures__image {
-  width: 282px;
-  height: 282px;
-  border-radius: 10px 10px 0 0;
-}
-
-.pictures__text-box {
-  padding: 25px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.pictures__caption {
-  font-family: "Inter", "Arial", sans-serif;
-  font-weight: 900;
-  font-size: 24px;
-  line-height: calc(29.5 / 24);
-  white-space: nowrap;
-  max-width: 220px;
-  color: #000;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 20px;
-  margin: 0;
-}
-
-.pictures__like {
-  background: url("../images/heart.svg") center no-repeat;
-  width: 21px;
-  height: 18px;
-  border: none;
-  padding: 0;
-  margin-right: 20px;
-}
-
-.pictures__like:hover {
-  opacity: 60%;
-}
-
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 740px) {
   .pictures {
     margin-top: 36px;
   }

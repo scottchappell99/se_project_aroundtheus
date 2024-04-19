@@ -2,7 +2,7 @@
   margin: 0 auto;
   padding: 45px 0 0;
   max-width: 880px;
-  height: 74px;
+  border-bottom: 1px rgba(84, 84, 84, 0.7) solid;
 }
 
 .header__logo {
@@ -11,15 +11,9 @@
   padding: 0 0 41px;
 }
 
-.header__line {
-  border-bottom: 1px #545454 solid;
-  opacity: 70%;
-}
-
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 740px) {
   .header {
     padding: 28px 0 0;
-    height: 56px;
   }
 
   .header__logo {

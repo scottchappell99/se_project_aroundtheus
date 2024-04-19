@@ -6,6 +6,8 @@
 - Figma
 - Images
 - Website
+- How it Works
+- Video Explanation
 
 **Intro**
 
@@ -24,3 +26,11 @@ Good luck and have fun!
 **Website**
 
 [Check out the site here](https://scottchappell99.github.io/se_project_aroundtheus/)
+
+**How it Works**
+
+I've set up this page to have several points to adapt to the screen. Firstly, the cards will adapt as they run out of room. Secondly, the page as a whole adapts at 740px, because that's about when the profile buttons get near to touching. Thirdly, the copyright adapts at 879px and 580px because I want it to stay in line with the rest of the content.
+
+**Video Explanation**
+
+Coming soon
