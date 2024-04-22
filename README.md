@@ -33,4 +33,4 @@ I've set up this page to have several points to adapt to the screen. Firstly, th
 
 **Video Explanation**
 
-Coming soon
+[Find the video here](https://drive.google.com/file/d/17H0DJUANFmPuNHJjlFx_CpNw4jUB5gCD/view?usp=drive_link)

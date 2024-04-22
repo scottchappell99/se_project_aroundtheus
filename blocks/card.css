@@ -38,10 +38,10 @@
   height: 18px;
   border: none;
   padding: 0;
+  transition: opacity 1s;
 }
 
 .card__like:hover {
   opacity: 50%;
-  transition: opacity 1s;
   cursor: pointer;
 }

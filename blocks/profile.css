@@ -42,11 +42,11 @@
   border: 1px #fff solid;
   padding: 0;
   margin: 15px 0 0 18px;
+  transition: opacity 1s;
 }
 
 .profile__edit-button:hover {
   opacity: 60%;
-  transition: opacity 1s;
   cursor: pointer;
 }
 
@@ -71,11 +71,11 @@
   border-radius: 2px;
   padding: 0;
   margin: 0 0 0 auto;
+  transition: opacity 1s;
 }
 
 .profile__add-button:hover {
   opacity: 60%;
-  transition: opacity 1s;
   cursor: pointer;
 }
 
