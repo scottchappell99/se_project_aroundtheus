@@ -64,10 +64,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.13);
 }
 
-.modal__input::placeholder {
-  opacity: 1;
-}
-
 .modal__button {
   color: #fff;
   font-family: "Inter", "Arial", sans-serif;
