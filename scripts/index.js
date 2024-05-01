@@ -34,6 +34,8 @@ const modalClose = modal.querySelector(".modal__close");
 let modalName = modal.querySelector(".modal__name");
 let modalSubtitle = modal.querySelector(".modal__subtitle");
 const modalSave = modal.querySelector(".modal__button");
+const picturesList = document.querySelector(".pictures__list");
+let cardTemplate = document.querySelector("#card-template").content;
 
 //Saving the profile's edits
 function saveProfile(event) {
@@ -43,14 +45,25 @@ function saveProfile(event) {
   modal.classList.remove("modal_opened");
 }
 
+//Opening the modal and pulling the name and job from the page
 editButton.addEventListener("click", function (openModal) {
   modalName.value = profileName.textContent;
   modalSubtitle.value = profileSubtitle.textContent;
   modal.classList.add("modal_opened");
 });
 
+//Closing the modal with no saves
 modalClose.addEventListener("click", function (closeModal) {
   modal.classList.remove("modal_opened");
 });
 
 modalSave.addEventListener("click", saveProfile);
+
+for (let i = 0; i < initialCards.length; i++) {
+  let cardContent = cardTemplate.querySelector(".card").cloneNode(true);
+  cardContent.querySelector(".card__image").src = initialCards[i].link;
+  cardContent.querySelector(".card__image").alt = initialCards[i].name;
+  cardContent.querySelector(".card__caption").textContent =
+    initialCards[i].name;
+  picturesList.append(cardContent);
+}
