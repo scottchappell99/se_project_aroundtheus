@@ -88,8 +88,8 @@
 
 @media screen and (max-width: 580px) {
   .modal__container {
-    max-width: 230px;
-    padding: 25px;
+    max-width: 282px;
+    padding: 25px 22px;
   }
 
   .modal__close {
@@ -104,9 +104,14 @@
     margin-bottom: 75px;
   }
 
+  .modal__form {
+    gap: 30px;
+  }
+
   .modal__input {
     font-size: 18px;
     line-height: calc(21.78 / 18);
+    width: 238px;
   }
 
   .modal__button {
@@ -114,5 +119,6 @@
     line-height: calc(16.94 / 14);
     width: 238px;
     height: 46px;
+    margin-top: 15px;
   }
 }
