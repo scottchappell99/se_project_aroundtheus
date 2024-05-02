@@ -33,7 +33,7 @@ const profileSubtitle = profile.querySelector(".profile__subtitle");
 const modalClose = modal.querySelector(".modal__close");
 const modalName = modal.querySelector(".modal__name");
 const modalSubtitle = modal.querySelector(".modal__subtitle");
-const modalSave = modal.querySelector(".modal__button");
+const modalForm = modal.querySelector(".modal__form");
 const picturesList = document.querySelector(".pictures__list");
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -72,7 +72,7 @@ editButton.addEventListener("click", openModal);
 
 modalClose.addEventListener("click", closeModal);
 
-modalSave.addEventListener("submit", saveProfile);
+modalForm.addEventListener("submit", saveProfile);
 
 for (let i = 0; i < initialCards.length; i++) {
   const cardContent = createCard(initialCards[i]);
