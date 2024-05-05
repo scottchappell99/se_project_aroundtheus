@@ -39,23 +39,23 @@ const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
 // Opening the modal and pulling the name and job from the page
-function openModal() {
+function handleOpenModal() {
   modalName.value = profileName.textContent;
   modalSubtitle.value = profileSubtitle.textContent;
   modal.classList.add("modal_opened");
 }
 
 // Closing the modal
-function closeModal() {
+function handleCloseModal() {
   modal.classList.remove("modal_opened");
 }
 
 // Saving the profile's edits
-function saveProfile(event) {
+function handleSaveProfile(event) {
   event.preventDefault();
   profileName.textContent = modalName.value;
   profileSubtitle.textContent = modalSubtitle.value;
-  closeModal();
+  handleCloseModal();
 }
 
 //Creating a card
@@ -63,19 +63,20 @@ function getCardElement(data) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardCaption = cardElement.querySelector(".card__caption");
   const cardImage = cardElement.querySelector(".card__image");
+
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardCaption.textContent = data.name;
+
   return cardElement;
 }
 
-editButton.addEventListener("click", openModal);
+//Listen for Events
+editButton.addEventListener("click", handleOpenModal);
+modalClose.addEventListener("click", handleCloseModal);
+modalForm.addEventListener("submit", handleSaveProfile);
 
-modalClose.addEventListener("click", closeModal);
-
-modalForm.addEventListener("submit", saveProfile);
-
-for (let i = 0; i < initialCards.length; i++) {
-  const cardContent = getCardElement(initialCards[i]);
-  picturesList.append(cardContent);
-}
+//Rendering cards
+initialCards.forEach((data) => {
+  picturesList.append(getCardElement(data));
+});
