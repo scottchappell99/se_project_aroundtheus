@@ -66,17 +66,26 @@ function handleSaveProfile(event) {
   handleCloseModal(modalEdit);
 }
 
+// Rendering cards
+function renderCard(data, list, where) {
+  const cardElement = getCardElement(data);
+  if (where === "before") {
+    list.prepend(cardElement);
+  } else if (where === "after") {
+    list.append(cardElement);
+  }
+}
+
 // Saving the added images
 function handleSaveImage(event) {
+  event.preventDefault();
   if (addModalImageName.value !== "" || addModalImageLink.value !== "") {
     const addImage = {
       name: addModalImageName.value,
       link: addModalImageLink.value,
     };
-    event.preventDefault();
-    initialCards.push(addImage);
-    picturesList.append(getCardElement(initialCards[initialCards.length - 1]));
     handleCloseModal(modalAdd);
+    renderCard(addImage, picturesList, "before");
   } else {
     handleCloseModal(modalAdd);
   }
@@ -87,10 +96,17 @@ function getCardElement(data) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardCaption = cardElement.querySelector(".card__caption");
   const cardImage = cardElement.querySelector(".card__image");
+  const likeButtons = cardElement.querySelectorAll(".card__like");
 
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardCaption.textContent = data.name;
+
+  likeButtons.forEach((likeButton) => {
+    likeButton.addEventListener("click", () => {
+      likeButton.classList.toggle("card__liked_active");
+    });
+  });
 
   return cardElement;
 }
@@ -104,6 +120,4 @@ addModalClose.addEventListener("click", () => handleCloseModal(modalAdd));
 addModalForm.addEventListener("submit", handleSaveImage);
 
 //Rendering cards
-initialCards.forEach((data) => {
-  picturesList.append(getCardElement(data));
-});
+initialCards.forEach((data) => renderCard(data, picturesList, "after"));

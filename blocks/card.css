@@ -41,6 +41,10 @@
   transition: opacity 1s;
 }
 
+.card__liked_active {
+  background: transparent url("../images/filled_in_heart.svg") center no-repeat;
+}
+
 .card__like:hover {
   opacity: 50%;
   cursor: pointer;
