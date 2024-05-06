@@ -25,15 +25,15 @@ const initialCards = [
   },
 ];
 
-const modal = document.querySelector(".modal");
+const modalEdit = document.querySelector(".modal__edit");
 const profile = document.querySelector(".profile");
 const profileName = profile.querySelector(".profile__name");
 const editButton = profile.querySelector(".profile__edit-button");
 const profileSubtitle = profile.querySelector(".profile__subtitle");
-const modalClose = modal.querySelector(".modal__close");
-const modalName = modal.querySelector(".modal__name");
-const modalSubtitle = modal.querySelector(".modal__subtitle");
-const modalForm = modal.querySelector(".modal__form");
+const modalClose = modalEdit.querySelector(".modal__close");
+const modalName = modalEdit.querySelector(".modal__name");
+const modalSubtitle = modalEdit.querySelector(".modal__subtitle");
+const modalForm = modalEdit.querySelector(".modal__form");
 const picturesList = document.querySelector(".pictures__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
@@ -42,12 +42,12 @@ const cardTemplate =
 function handleOpenModal() {
   modalName.value = profileName.textContent;
   modalSubtitle.value = profileSubtitle.textContent;
-  modal.classList.add("modal_opened");
+  modalEdit.classList.add("modal_opened");
 }
 
 // Closing the modal
 function handleCloseModal() {
-  modal.classList.remove("modal_opened");
+  modalEdit.classList.remove("modal_opened");
 }
 
 // Saving the profile's edits
