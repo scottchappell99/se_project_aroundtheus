@@ -91,7 +91,7 @@ function handleSaveImage(event) {
   }
 }
 
-//Creating a card
+//Creating a card and giving it event listener
 function getCardElement(data) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardCaption = cardElement.querySelector(".card__caption");
@@ -105,6 +105,15 @@ function getCardElement(data) {
   likeButtons.forEach((likeButton) => {
     likeButton.addEventListener("click", () => {
       likeButton.classList.toggle("card__liked_active");
+    });
+  });
+
+  const deleteButton = document.querySelectorAll(".card__delete-button");
+
+  deleteButton.forEach((deleteButton) => {
+    deleteButton.addEventListener("click", (event) => {
+      const cardToDelete = event.target.closest(".card");
+      cardToDelete.remove();
     });
   });
 
