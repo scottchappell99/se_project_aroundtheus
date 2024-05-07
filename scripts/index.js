@@ -43,6 +43,11 @@ const addModalClose = modalAdd.querySelector(".modal__close");
 const addModalForm = modalAdd.querySelector(".modal__form");
 const addModalImageName = modalAdd.querySelector(".modal__place_type_name");
 const addModalImageLink = modalAdd.querySelector(".modal__place_type_image");
+const bigPopup = document.querySelector(".modal__picture");
+const bigPopupContainer = bigPopup.querySelector(".modal__image-container");
+const bigPopupClose = bigPopupContainer.querySelector(".modal__close");
+const bigPopupImage = bigPopupContainer.querySelector(".modal__image");
+const bigPopupCaption = bigPopupContainer.querySelector(".modal__text");
 
 // Opening the modal
 function handleOpenModal(modal) {
@@ -91,7 +96,7 @@ function handleSaveImage(event) {
   }
 }
 
-//Creating a card and giving it event listener
+//Creating a card
 function getCardElement(data) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardCaption = cardElement.querySelector(".card__caption");
@@ -102,19 +107,30 @@ function getCardElement(data) {
   cardImage.alt = data.name;
   cardCaption.textContent = data.name;
 
+  //Adding a like button listener to the card
   likeButtons.forEach((likeButton) => {
     likeButton.addEventListener("click", () => {
       likeButton.classList.toggle("card__liked_active");
     });
   });
 
-  const deleteButton = document.querySelectorAll(".card__delete-button");
+  //Adding a delete button listener to the card
+  const deleteButton = cardElement.querySelectorAll(".card__delete-button");
 
   deleteButton.forEach((deleteButton) => {
     deleteButton.addEventListener("click", (event) => {
       const cardToDelete = event.target.closest(".card");
       cardToDelete.remove();
     });
+  });
+
+  //Adding a big popup listener to the card
+
+  cardImage.addEventListener("click", () => {
+    bigPopupImage.src = cardImage.src;
+    bigPopupImage.alt = cardImage.alt;
+    bigPopupCaption.textContent = cardCaption.textContent;
+    handleOpenModal(bigPopup);
   });
 
   return cardElement;
@@ -127,6 +143,7 @@ editModalForm.addEventListener("submit", handleSaveProfile);
 addButton.addEventListener("click", () => handleOpenModal(modalAdd));
 addModalClose.addEventListener("click", () => handleCloseModal(modalAdd));
 addModalForm.addEventListener("submit", handleSaveImage);
+bigPopupClose.addEventListener("click", () => handleCloseModal(bigPopup));
 
 //Rendering cards
 initialCards.forEach((data) => renderCard(data, picturesList, "after"));
