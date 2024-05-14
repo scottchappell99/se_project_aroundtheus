@@ -58,6 +58,12 @@
   gap: 29px;
 }
 
+.modal__label {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 .modal__input {
   font-family: "Inter", "Arial", sans-serif;
   font-weight: 400;
@@ -67,6 +73,26 @@
   padding: 0 0 13.26px;
   border: 0 none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.modal__input_type_error {
+  border-bottom-color: #ff0000;
+}
+
+.modal__error {
+  position: absolute;
+  top: 100%;
+  font-family: "Inter", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: calc(14.52 / 12);
+  color: #ff0000;
+  padding-top: 5px;
+  opacity: 0;
+}
+
+.modal__error_visible {
+  opacity: 1;
 }
 
 .modal__button {
@@ -83,7 +109,15 @@
   border: 0 none;
   margin: 18px 0 0;
   padding: 0;
-  transition: opacity 1s;
+  transition: opacity, border-color, background-color, 1s;
+}
+
+.modal__button_disabled {
+  color: #000;
+  opacity: 0.2;
+  background-color: #fff;
+  border: solid 1px;
+  border-color: #000;
 }
 
 .modal__button:hover {

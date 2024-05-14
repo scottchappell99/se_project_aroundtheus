@@ -82,17 +82,13 @@ function renderCard(data, list, where) {
 // Saving the added images
 function handleSaveImage(event) {
   event.preventDefault();
-  if (addModalImageName.value !== "" || addModalImageLink.value !== "") {
-    const addImage = {
-      name: addModalImageName.value,
-      link: addModalImageLink.value,
-    };
-    closeModal(modalAdd);
-    event.target.reset();
-    renderCard(addImage, picturesList, "before");
-  } else {
-    closeModal(modalAdd);
-  }
+  const addImage = {
+    name: addModalImageName.value,
+    link: addModalImageLink.value,
+  };
+  closeModal(modalAdd);
+  event.target.reset();
+  renderCard(addImage, picturesList, "before");
 }
 
 // Creating a card
