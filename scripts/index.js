@@ -50,24 +50,34 @@ const bigPopupImage = bigPopupContainer.querySelector(".modal__image");
 const bigPopupCaption = bigPopupContainer.querySelector(".modal__text");
 const closeButtons = document.querySelectorAll(".modal__close");
 
+//Closing a modal by clicking off
+function closeModalClick(evt) {
+  const openedModal = document.querySelector(".modal_opened");
+  if (evt.target.contains(openedModal)) {
+    closeModal(openedModal);
+  }
+}
+
+//Closing a modal with escape
+function closeModalEscape(evt) {
+  if (evt.key === "Escape") {
+    const openedModal = document.querySelector(".modal_opened");
+    closeModal(openedModal);
+  }
+}
+
 // Opening a modal
 function openModal(modal) {
   modal.classList.add("modal_opened");
-  modal.addEventListener("click", (evt) => {
-    if (evt.target.contains(modal)) {
-      closeModal(modal);
-    }
-  });
-  document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape") {
-      closeModal(modal);
-    }
-  });
+  modal.addEventListener("click", closeModalClick);
+  document.addEventListener("keydown", closeModalEscape);
 }
 
 // Closing a modal
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  modal.removeEventListener("click", closeModalClick);
+  document.removeEventListener("keydown", closeModalEscape);
 }
 
 // Saving the profile's edits

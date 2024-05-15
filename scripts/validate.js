@@ -35,16 +35,13 @@ function checkInputValidity(formElement, inputElement, config) {
   }
 }
 
+const checkFormValidity = (inputElements) =>
+  inputElements.every((inputElement) => inputElement.validity.valid);
+
 function toggleButtonState(inputElements, submitButton, config) {
-  let foundInvalid = false;
+  const isFormValid = checkFormValidity(inputElements);
 
-  inputElements.forEach((inputElement) => {
-    if (!inputElement.validity.valid) {
-      foundInvalid = true;
-    }
-  });
-
-  if (foundInvalid) {
+  if (!isFormValid) {
     submitButton.classList.add(config.inactiveButtonClass);
     submitButton.disabled = true;
   } else {
