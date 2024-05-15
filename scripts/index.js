@@ -53,6 +53,16 @@ const closeButtons = document.querySelectorAll(".modal__close");
 // Opening a modal
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  modal.addEventListener("click", (evt) => {
+    if (evt.target.contains(modal)) {
+      closeModal(modal);
+    }
+  });
+  document.addEventListener("keydown", (evt) => {
+    if (evt.key === "Escape") {
+      closeModal(modal);
+    }
+  });
 }
 
 // Closing a modal
@@ -141,6 +151,7 @@ closeButtons.forEach((button) => {
 
 editModalForm.addEventListener("submit", handleSaveProfile);
 addButton.addEventListener("click", () => openModal(modalAdd));
+
 addModalForm.addEventListener("submit", handleSaveImage);
 
 // Initial rendering of cards

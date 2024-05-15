@@ -109,15 +109,14 @@
   border: 0 none;
   margin: 18px 0 0;
   padding: 0;
-  transition: opacity, border-color, background-color, 1s;
+  transition: opacity 1s;
 }
 
 .modal__button_disabled {
-  color: #000;
-  opacity: 0.2;
+  color: rgba(0, 0, 0, 0.2);
   background-color: #fff;
   border: solid 1px;
-  border-color: #000;
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
 .modal__button:hover {
