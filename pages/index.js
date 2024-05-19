@@ -56,7 +56,8 @@ const bigPopupContainer = bigPopup.querySelector(".modal__image-container");
 const bigPopupImage = bigPopupContainer.querySelector(".modal__image");
 const bigPopupCaption = bigPopupContainer.querySelector(".modal__text");
 const closeButtons = document.querySelectorAll(".modal__close");
-const formElements = [...document.querySelectorAll(".modal__form")];
+const addFormValidator = new FormValidator(config, addModalForm);
+const editFormValidator = new FormValidator(config, editModalForm);
 
 //Closing a modal by clicking off
 function closeModalClick(evt) {
@@ -66,7 +67,7 @@ function closeModalClick(evt) {
   }
 }
 
-//Closing a modal with escape
+//Closing a modal by escaping
 function closeModalEscape(evt) {
   if (evt.key === "Escape") {
     const openedModal = document.querySelector(".modal_opened");
@@ -88,12 +89,6 @@ function closeModal(modal) {
   document.removeEventListener("keydown", closeModalEscape);
 }
 
-//Disabling the submit button
-function submitButtonDisable(submitButton) {
-  submitButton.classList.add(config.inactiveButtonClass);
-  submitButton.disabled = true;
-}
-
 // Saving the profile's edits
 function handleSaveProfile(event) {
   event.preventDefault();
@@ -101,7 +96,10 @@ function handleSaveProfile(event) {
   profileSubtitle.textContent = editModalSubtitle.value;
   closeModal(modalEdit);
   event.target.reset();
-  submitButtonDisable(event.target.querySelector(config.submitButtonSelector));
+  editFormValidator.disableSubmitButton(
+    event.target.querySelector(config.submitButtonSelector)
+  );
+  editFormValidator.resetValidation(editModalForm);
 }
 
 // Rendering cards
@@ -125,16 +123,23 @@ function handleSaveImage(event) {
   closeModal(modalAdd);
   event.target.reset();
   renderCard(addImage, picturesList, "before");
-  submitButtonDisable(event.target.querySelector(config.submitButtonSelector));
+  addFormValidator.disableSubmitButton(
+    event.target.querySelector(config.submitButtonSelector)
+  );
+  addFormValidator.resetValidation(addModalForm);
 }
 
 // Opening the big popup
-function handleImageClick(cardClass) {
-  bigPopupImage.src = cardClass.cardImage.src;
-  bigPopupImage.alt = cardClass.cardImage.alt;
-  bigPopupCaption.textContent = cardClass.cardCaption.textContent;
+function handleImageClick(cardImage, cardCaption) {
+  bigPopupImage.src = cardImage.src;
+  bigPopupImage.alt = cardImage.alt;
+  bigPopupCaption.textContent = cardCaption.textContent;
   openModal(bigPopup);
 }
+
+// Adding validators to all forms
+addFormValidator.enableValidation();
+editFormValidator.enableValidation();
 
 // Listen for Events
 editButton.addEventListener("click", () => {
@@ -154,9 +159,3 @@ addModalForm.addEventListener("submit", handleSaveImage);
 
 // Initial rendering of cards
 initialCards.forEach((data) => renderCard(data, picturesList, "after"));
-
-// Adding validators to all forms
-formElements.forEach((formElement) => {
-  const formValidator = new FormValidator(config, formElement);
-  formValidator.enableValidation();
-});
