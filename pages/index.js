@@ -96,10 +96,8 @@ function handleSaveProfile(event) {
   profileSubtitle.textContent = editModalSubtitle.value;
   closeModal(modalEdit);
   event.target.reset();
-  editFormValidator.disableSubmitButton(
-    event.target.querySelector(config.submitButtonSelector)
-  );
-  editFormValidator.resetValidation(editModalForm);
+  editFormValidator.disableSubmitButton();
+  editFormValidator.resetValidation();
 }
 
 // Rendering cards
@@ -123,17 +121,15 @@ function handleSaveImage(event) {
   closeModal(modalAdd);
   event.target.reset();
   renderCard(addImage, picturesList, "before");
-  addFormValidator.disableSubmitButton(
-    event.target.querySelector(config.submitButtonSelector)
-  );
-  addFormValidator.resetValidation(addModalForm);
+  addFormValidator.disableSubmitButton();
+  addFormValidator.resetValidation();
 }
 
 // Opening the big popup
 function handleImageClick(cardImage, cardCaption) {
-  bigPopupImage.src = cardImage.src;
-  bigPopupImage.alt = cardImage.alt;
-  bigPopupCaption.textContent = cardCaption.textContent;
+  bigPopupImage.src = cardImage;
+  bigPopupImage.alt = cardCaption;
+  bigPopupCaption.textContent = cardCaption;
   openModal(bigPopup);
 }
 
