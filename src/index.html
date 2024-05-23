@@ -9,15 +9,13 @@
     />
     <meta name="author" content="Scott Chappell" />
     <meta name="keywords" content="around the us, profile, jacques cousteau" />
-    <link rel="stylesheet" href="./pages/index.css" />
-    <link rel="icon" href="./favicon.ico" />
     <title>Around the U.S.</title>
   </head>
   <body class="page">
     <div class="page__content">
       <header class="header">
         <img
-          src="./images/logo.svg"
+          src="<%=require('./images/logo.svg')%>"
           alt="Around the U.S. Logo, with Around in a large type and The U.S. in a much smaller type"
           class="header__logo"
         />
@@ -25,7 +23,7 @@
       <main class="content">
         <section class="profile">
           <img
-            src="./images/jacques-cousteau.jpg"
+            src="<%=require('./images/jacques-cousteau.jpg')%>"
             alt="Profile picture of Jacques Cousteau wearing a red beanie and smiling"
             class="profile__avatar"
           />
@@ -140,6 +138,5 @@
         <h2 class="modal__text"></h2>
       </div>
     </div>
-    <script type="module" src="./pages/index.js"></script>
   </body>
 </html>
