@@ -20,60 +20,71 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 
 const userInfo = new UserInfo(profileInfo);
-const addFormValidator = new FormValidator(config, addPictureForm);
-const editFormValidator = new FormValidator(config, editProfileForm);
+const addFormPopup = new PopupWithForm("#modal-add", handleAddImage);
+const editFormPopup = new PopupWithForm("#modal-edit", handleEditProfile);
+const imagePopup = new PopupWithImage("#modal-picture");
 const cardSection = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item, "#card-template", handleImageClick);
-      const cardElement = card.generateCard();
+      const cardElement = createCard(item);
       cardSection.addItem(cardElement, "append");
     },
   },
   ".pictures__list"
 );
+const formValidators = {};
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+    const formName = formElement.getAttribute("name");
+
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(config);
 
 cardSection.renderItems();
-addFormValidator.enableValidation();
-editFormValidator.enableValidation();
 
 function handleAddClick() {
-  const addFormPopup = new PopupWithForm("#modal-add", handleAddImage);
   addFormPopup.open();
 }
 
 function handleEditClick() {
-  const editFormPopup = new PopupWithForm("#modal-edit", handleEditProfile);
   const presentUserInfo = userInfo.getUserInfo();
   profileFormInfo.name.value = presentUserInfo.name;
-  profileFormInfo.occupation.value = presentUserInfo.occupation;
+  profileFormInfo.subtitle.value = presentUserInfo.subtitle;
+  formValidators["edit"].resetValidation();
   editFormPopup.open();
 }
 
 function handleImageClick(cardLink, cardCaption) {
-  const imagePopup = new PopupWithImage("#modal-picture");
   imagePopup.open(cardLink, cardCaption);
 }
 
-function handleAddImage() {
-  const imageInfo = {
-    name: document.querySelector(".modal__place_type_name").value,
-    link: document.querySelector(".modal__place_type_image").value,
-  };
+function createCard(imageInfo) {
   const newCard = new Card(imageInfo, "#card-template", handleImageClick);
-  const addedCardElement = newCard.generateCard();
-  cardSection.addItem(addedCardElement, "prepend");
-  addFormValidator.resetValidation();
+  const cardElement = newCard.generateCard();
+  return cardElement;
 }
 
-function handleEditProfile() {
-  const newProfileInfo = {
-    name: profileFormInfo.name.value,
-    occupation: profileFormInfo.occupation.value,
-  };
+function handleAddImage(imageInfo) {
+  const addedCardElement = createCard(imageInfo);
+  cardSection.addItem(addedCardElement, "prepend");
+  addFormPopup.close();
+  formValidators["add"].resetValidation();
+}
+
+function handleEditProfile(newProfileInfo) {
   userInfo.setUserInfo(newProfileInfo);
+  editFormPopup.close();
 }
 
 addButton.addEventListener("click", handleAddClick);
 editButton.addEventListener("click", handleEditClick);
+addFormPopup.setEventListeners();
+editFormPopup.setEventListeners();
+imagePopup.setEventListeners();

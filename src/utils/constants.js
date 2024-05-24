@@ -40,9 +40,9 @@ export const addButton = document.querySelector(".profile__add-button");
 export const editButton = document.querySelector(".profile__edit-button");
 export const profileInfo = {
   name: document.querySelector(".profile__name"),
-  occupation: document.querySelector(".profile__subtitle"),
+  subtitle: document.querySelector(".profile__subtitle"),
 };
 export const profileFormInfo = {
   name: document.querySelector(".modal__name"),
-  occupation: document.querySelector(".modal__subtitle"),
+  subtitle: document.querySelector(".modal__subtitle"),
 };

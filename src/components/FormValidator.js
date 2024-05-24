@@ -28,6 +28,7 @@ export default class FormValidator {
     this._inputElements.forEach((inputElement) =>
       this._hideInputError(inputElement)
     );
+    this.disableSubmitButton();
   }
 
   _checkInputValidity(inputElement) {
