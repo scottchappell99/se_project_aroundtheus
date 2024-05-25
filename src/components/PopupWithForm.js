@@ -24,4 +24,8 @@ export default class PopupWithForm extends Popup {
       this._callbackFunction(this._getInputValues())
     );
   }
+
+  clearForm() {
+    this._popupForm.reset();
+  }
 }

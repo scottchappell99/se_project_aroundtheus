@@ -3,8 +3,6 @@ import "./index.css";
 import {
   initialCards,
   config,
-  addPictureForm,
-  editProfileForm,
   addButton,
   editButton,
   profileInfo,
@@ -75,7 +73,8 @@ function handleAddImage(imageInfo) {
   const addedCardElement = createCard(imageInfo);
   cardSection.addItem(addedCardElement, "prepend");
   addFormPopup.close();
-  formValidators["add"].resetValidation();
+  addFormPopup.clearForm();
+  formValidators["add"].disableSubmitButton();
 }
 
 function handleEditProfile(newProfileInfo) {

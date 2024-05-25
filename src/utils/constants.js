@@ -34,8 +34,6 @@ export const config = {
   errorClass: "modal__error_visible",
 };
 
-export const addPictureForm = document.forms["picture-add"];
-export const editProfileForm = document.forms["profile-edit"];
 export const addButton = document.querySelector(".profile__add-button");
 export const editButton = document.querySelector(".profile__edit-button");
 export const profileInfo = {
