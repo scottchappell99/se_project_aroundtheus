@@ -16,7 +16,15 @@ import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../utils/Api.js";
 
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "941cde9b-0688-45d7-ad22-182001390677",
+    "Content-Type": "application/json",
+  },
+});
 const userInfo = new UserInfo(profileInfo);
 const addFormPopup = new PopupWithForm("#modal-add", handleAddImage);
 const editFormPopup = new PopupWithForm("#modal-edit", handleEditProfile);
