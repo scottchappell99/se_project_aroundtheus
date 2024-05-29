@@ -1,9 +1,11 @@
 export default class Card {
-  constructor(data, cardSelector, handleImageClick) {
+  constructor(data, cardSelector, clickFunction, deleteFunction) {
     this._name = data.name;
     this._link = data.link;
+    this.id = data._id;
     this._cardSelector = cardSelector;
-    this._handleImageClick = handleImageClick;
+    this._clickFunction = clickFunction;
+    this._deleteFunction = deleteFunction;
     this._cardTemplate = document.querySelector(
       this._cardSelector
     ).content.firstElementChild;
@@ -13,18 +15,17 @@ export default class Card {
     this._likeButton.classList.toggle("card__liked_active");
   }
 
-  _handleDeleteClick() {
-    this._cardElement.remove();
-    this._cardElement = null;
+  _handleDeleteClick(evt) {
+    this._deleteFunction(this.id, evt);
   }
 
   _setEventListeners() {
     this._likeButton.addEventListener("click", () => this._handleLikeClick());
-    this._deleteButton.addEventListener("click", () =>
-      this._handleDeleteClick()
+    this._deleteButton.addEventListener("click", (evt) =>
+      this._handleDeleteClick(evt)
     );
     this.cardImage.addEventListener("click", () =>
-      this._handleImageClick(this._link, this._name)
+      this._clickFunction(this._link, this._name)
     );
   }
 
@@ -39,6 +40,7 @@ export default class Card {
 
     this.cardImage.src = this._link;
     this.cardImage.alt = this._name;
+    this.cardImage.id = this.id;
     this.cardCaption.textContent = this._name;
 
     this._setEventListeners();

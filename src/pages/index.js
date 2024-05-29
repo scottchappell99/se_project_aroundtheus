@@ -13,6 +13,7 @@ import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupForDelete from "../components/PopupForDelete.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../utils/Api.js";
@@ -58,6 +59,10 @@ api
 
 const addFormPopup = new PopupWithForm("#modal-add", handleAddImage);
 const editFormPopup = new PopupWithForm("#modal-edit", handleEditProfile);
+const deleteVerifyPopup = new PopupForDelete(
+  "#modal-delete",
+  handleDeleteVerify
+);
 const imagePopup = new PopupWithImage("#modal-picture");
 const formValidators = {};
 const enableValidation = (config) => {
@@ -70,6 +75,8 @@ const enableValidation = (config) => {
     validator.enableValidation();
   });
 };
+let cardIdForDeletion;
+let cardToDelete;
 
 enableValidation(config);
 
@@ -89,19 +96,31 @@ function handleImageClick(cardLink, cardCaption) {
   imagePopup.open(cardLink, cardCaption);
 }
 
+function handleDeletePopup(cardId, evt) {
+  deleteVerifyPopup.open();
+  cardIdForDeletion = cardId;
+  cardToDelete = evt.target.closest(".card");
+}
+
 function createCard(imageInfo) {
-  const newCard = new Card(imageInfo, "#card-template", handleImageClick);
+  const newCard = new Card(
+    imageInfo,
+    "#card-template",
+    handleImageClick,
+    handleDeletePopup
+  );
   const cardElement = newCard.generateCard();
   return cardElement;
 }
 
 function handleAddImage(imageInfo) {
-  const addedCardElement = createCard(imageInfo);
-  api.addCard(imageInfo);
-  cardSection.addItem(addedCardElement, "prepend");
-  addFormPopup.close();
-  addFormPopup.clearForm();
-  formValidators["add"].disableSubmitButton();
+  api.addCard(imageInfo).then((res) => {
+    let addedCardElement = createCard(res);
+    cardSection.addItem(addedCardElement, "prepend");
+    addFormPopup.close();
+    addFormPopup.clearForm();
+    formValidators["add"].disableSubmitButton();
+  });
 }
 
 function handleEditProfile(newProfileInfo) {
@@ -111,8 +130,15 @@ function handleEditProfile(newProfileInfo) {
   editFormPopup.close();
 }
 
+function handleDeleteVerify() {
+  api.deleteCard(cardIdForDeletion);
+  cardToDelete.remove();
+  deleteVerifyPopup.close();
+}
+
 addButton.addEventListener("click", handleAddClick);
 editButton.addEventListener("click", handleEditClick);
 addFormPopup.setEventListeners();
 editFormPopup.setEventListeners();
+deleteVerifyPopup.setEventListeners();
 imagePopup.setEventListeners();
