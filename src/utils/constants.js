@@ -38,9 +38,9 @@ export const addButton = document.querySelector(".profile__add-button");
 export const editButton = document.querySelector(".profile__edit-button");
 export const profileInfo = {
   name: document.querySelector(".profile__name"),
-  subtitle: document.querySelector(".profile__subtitle"),
+  about: document.querySelector(".profile__subtitle"),
 };
 export const profileFormInfo = {
   name: document.querySelector(".modal__name"),
-  subtitle: document.querySelector(".modal__subtitle"),
+  about: document.querySelector(".modal__subtitle"),
 };

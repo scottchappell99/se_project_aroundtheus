@@ -1,7 +1,6 @@
 import "./index.css";
 
 import {
-  initialCards,
   config,
   addButton,
   editButton,
@@ -21,24 +20,45 @@ import Api from "../utils/Api.js";
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
-    authorization: "941cde9b-0688-45d7-ad22-182001390677",
+    authorization: "2a802ea2-27ed-4bda-9f25-4922d40c7a86",
     "Content-Type": "application/json",
   },
 });
-const userInfo = new UserInfo(profileInfo);
+let userInfo;
+api.getInfoFirst();
+
+api
+  .getUserInfo()
+  .then((res) => {
+    userInfo = new UserInfo(res);
+    userInfo.setUserInfo(profileInfo);
+  })
+  .catch((err) => console.error(err));
+
+let cardSection;
+
+api
+  .getInitialCards()
+  .then((cards) => {
+    cardSection = new Section(
+      {
+        items: cards,
+        renderer: (item) => {
+          const cardElement = createCard(item);
+          cardSection.addItem(cardElement, "append");
+        },
+      },
+      ".pictures__list"
+    );
+    cardSection.renderItems();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
 const addFormPopup = new PopupWithForm("#modal-add", handleAddImage);
 const editFormPopup = new PopupWithForm("#modal-edit", handleEditProfile);
 const imagePopup = new PopupWithImage("#modal-picture");
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = createCard(item);
-      cardSection.addItem(cardElement, "append");
-    },
-  },
-  ".pictures__list"
-);
 const formValidators = {};
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
@@ -53,8 +73,6 @@ const enableValidation = (config) => {
 
 enableValidation(config);
 
-cardSection.renderItems();
-
 function handleAddClick() {
   addFormPopup.open();
 }
@@ -62,7 +80,7 @@ function handleAddClick() {
 function handleEditClick() {
   const presentUserInfo = userInfo.getUserInfo();
   profileFormInfo.name.value = presentUserInfo.name;
-  profileFormInfo.subtitle.value = presentUserInfo.subtitle;
+  profileFormInfo.about.value = presentUserInfo.about;
   formValidators["edit"].resetValidation();
   editFormPopup.open();
 }
@@ -86,7 +104,9 @@ function handleAddImage(imageInfo) {
 }
 
 function handleEditProfile(newProfileInfo) {
-  userInfo.setUserInfo(newProfileInfo);
+  userInfo.changeUserInfo(newProfileInfo);
+  api.editUserInfo(newProfileInfo);
+  userInfo.setUserInfo(profileInfo);
   editFormPopup.close();
 }
 
