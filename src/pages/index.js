@@ -97,6 +97,7 @@ function createCard(imageInfo) {
 
 function handleAddImage(imageInfo) {
   const addedCardElement = createCard(imageInfo);
+  api.addCard(imageInfo);
   cardSection.addItem(addedCardElement, "prepend");
   addFormPopup.close();
   addFormPopup.clearForm();
