@@ -6,6 +6,7 @@ import {
   editButton,
   profileInfo,
   profileFormInfo,
+  editAvatarButton,
 } from "../utils/constants.js";
 
 // Import classes
@@ -63,6 +64,7 @@ const deleteVerifyPopup = new PopupForDelete(
   "#modal-delete",
   handleDeleteVerify
 );
+const editAvatarPopup = new PopupWithForm("#modal-avatar", handleChangeAvatar);
 const imagePopup = new PopupWithImage("#modal-picture");
 const formValidators = {};
 const enableValidation = (config) => {
@@ -94,6 +96,10 @@ function handleEditClick() {
 
 function handleImageClick(cardLink, cardCaption) {
   imagePopup.open(cardLink, cardCaption);
+}
+
+function handleAvatarClick() {
+  editAvatarPopup.open();
 }
 
 function handleDeletePopup(cardId, evt) {
@@ -142,6 +148,15 @@ function handleEditProfile(newProfileInfo) {
   editFormPopup.close();
 }
 
+function handleChangeAvatar(newAvatarImage) {
+  userInfo.changeAvatar(newAvatarImage.avatar);
+  api.changeProfilePicture(newAvatarImage).catch((err) => console.error(err));
+  userInfo.setUserInfo(profileInfo);
+  editAvatarPopup.close();
+  editAvatarPopup.clearForm();
+  formValidators["avatar"].disableSubmitButton();
+}
+
 function handleDeleteVerify() {
   api.deleteCard(cardIdForDeletion).catch((err) => console.error(err));
   cardToDelete.remove();
@@ -150,7 +165,9 @@ function handleDeleteVerify() {
 
 addButton.addEventListener("click", handleAddClick);
 editButton.addEventListener("click", handleEditClick);
+editAvatarButton.addEventListener("click", handleAvatarClick);
 addFormPopup.setEventListeners();
 editFormPopup.setEventListeners();
+editAvatarPopup.setEventListeners();
 deleteVerifyPopup.setEventListeners();
 imagePopup.setEventListeners();

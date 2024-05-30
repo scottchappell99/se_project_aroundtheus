@@ -39,8 +39,13 @@ export const editButton = document.querySelector(".profile__edit-button");
 export const profileInfo = {
   name: document.querySelector(".profile__name"),
   about: document.querySelector(".profile__subtitle"),
+  avatar: document.querySelector(".profile__avatar"),
 };
 export const profileFormInfo = {
   name: document.querySelector(".modal__name"),
   about: document.querySelector(".modal__subtitle"),
 };
+
+export const editAvatarButton = document.querySelector(
+  ".profile__avatar-button"
+);
