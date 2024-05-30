@@ -102,36 +102,48 @@ function handleDeletePopup(cardId, evt) {
   cardToDelete = evt.target.closest(".card");
 }
 
+function likeToServer(cardId, cardElement) {
+  if (!cardElement.querySelector(".card__liked_active")) {
+    api.removeLikeFromCard(cardId).catch((err) => console.error(err));
+  } else {
+    api.addLikeToCard(cardId).catch((err) => console.error(err));
+  }
+}
+
 function createCard(imageInfo) {
   const newCard = new Card(
     imageInfo,
     "#card-template",
     handleImageClick,
-    handleDeletePopup
+    handleDeletePopup,
+    likeToServer
   );
   const cardElement = newCard.generateCard();
   return cardElement;
 }
 
 function handleAddImage(imageInfo) {
-  api.addCard(imageInfo).then((res) => {
-    let addedCardElement = createCard(res);
-    cardSection.addItem(addedCardElement, "prepend");
-    addFormPopup.close();
-    addFormPopup.clearForm();
-    formValidators["add"].disableSubmitButton();
-  });
+  api
+    .addCard(imageInfo)
+    .then((res) => {
+      let addedCardElement = createCard(res);
+      cardSection.addItem(addedCardElement, "prepend");
+      addFormPopup.close();
+      addFormPopup.clearForm();
+      formValidators["add"].disableSubmitButton();
+    })
+    .catch((err) => console.error(err));
 }
 
 function handleEditProfile(newProfileInfo) {
   userInfo.changeUserInfo(newProfileInfo);
-  api.editUserInfo(newProfileInfo);
+  api.editUserInfo(newProfileInfo).catch((err) => console.error(err));
   userInfo.setUserInfo(profileInfo);
   editFormPopup.close();
 }
 
 function handleDeleteVerify() {
-  api.deleteCard(cardIdForDeletion);
+  api.deleteCard(cardIdForDeletion).catch((err) => console.error(err));
   cardToDelete.remove();
   deleteVerifyPopup.close();
 }
