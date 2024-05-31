@@ -30,7 +30,6 @@ const api = new Api({
   },
 });
 let userInfo;
-api.getInfoFirst();
 
 api
   .getUserInfo()
@@ -112,12 +111,18 @@ function handleDeletePopup(cardId, evt) {
   cardToDelete = evt.target.closest(".card");
 }
 
-function likeToServer(cardId, cardElement) {
-  if (!cardElement.querySelector(".card__liked_active")) {
-    api.removeLikeFromCard(cardId).catch((err) => console.error(err));
-  } else {
-    api.addLikeToCard(cardId).catch((err) => console.error(err));
-  }
+function removeLikeFromServer(cardId, likeButton) {
+  api
+    .removeLikeFromCard(cardId)
+    .then(likeButton.classList.remove("card__liked_active"))
+    .catch((err) => console.error(err));
+}
+
+function likeToServer(cardId, likeButton) {
+  api
+    .addLikeToCard(cardId)
+    .then(likeButton.classList.add("card__liked_active"))
+    .catch((err) => console.error(err));
 }
 
 function createCard(imageInfo) {
@@ -126,6 +131,7 @@ function createCard(imageInfo) {
     "#card-template",
     handleImageClick,
     handleDeletePopup,
+    removeLikeFromServer,
     likeToServer
   );
   const cardElement = newCard.generateCard();

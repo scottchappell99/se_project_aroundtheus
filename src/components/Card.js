@@ -1,5 +1,12 @@
 export default class Card {
-  constructor(data, cardSelector, clickFunction, deleteFunction, likeToServer) {
+  constructor(
+    data,
+    cardSelector,
+    clickFunction,
+    deleteFunction,
+    removeLikeFromServer,
+    likeToServer
+  ) {
     this._name = data.name;
     this._link = data.link;
     this.id = data._id;
@@ -7,6 +14,7 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._clickFunction = clickFunction;
     this._deleteFunction = deleteFunction;
+    this._removeLikeFromServer = removeLikeFromServer;
     this._likeToServer = likeToServer;
     this._cardTemplate = document.querySelector(
       this._cardSelector
@@ -14,8 +22,11 @@ export default class Card {
   }
 
   _handleLikeClick() {
-    this._likeButton.classList.toggle("card__liked_active");
-    this._likeToServer(this.id, this.cardElement);
+    if (this.cardElement.querySelector(".card__liked_active")) {
+      this._removeLikeFromServer(this.id, this._likeButton);
+    } else {
+      this._likeToServer(this.id, this._likeButton);
+    }
   }
 
   _handleDeleteClick(evt) {
