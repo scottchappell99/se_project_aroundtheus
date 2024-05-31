@@ -7,6 +7,9 @@ import {
   profileInfo,
   profileFormInfo,
   editAvatarButton,
+  addPopup,
+  editPopup,
+  avatarPopup,
 } from "../utils/constants.js";
 
 // Import classes
@@ -79,6 +82,7 @@ const enableValidation = (config) => {
 };
 let cardIdForDeletion;
 let cardToDelete;
+let buttonText;
 
 enableValidation(config);
 
@@ -128,37 +132,71 @@ function createCard(imageInfo) {
   return cardElement;
 }
 
+function renderLoading(isLoading, button) {
+  if (isLoading) {
+    buttonText = button.textContent;
+    button.textContent = "Saving...";
+  } else {
+    button.textContent = buttonText;
+  }
+}
+
 function handleAddImage(imageInfo) {
+  renderLoading(true, addPopup.querySelector(config.submitButtonSelector));
   api
     .addCard(imageInfo)
     .then((res) => {
       let addedCardElement = createCard(res);
       cardSection.addItem(addedCardElement, "prepend");
+    })
+    .catch((err) => console.error(err))
+    .finally(() => {
+      renderLoading(false, addPopup.querySelector(config.submitButtonSelector));
       addFormPopup.close();
       addFormPopup.clearForm();
       formValidators["add"].disableSubmitButton();
-    })
-    .catch((err) => console.error(err));
+    });
 }
 
 function handleEditProfile(newProfileInfo) {
+  renderLoading(true, editPopup.querySelector(config.submitButtonSelector));
   userInfo.changeUserInfo(newProfileInfo);
-  api.editUserInfo(newProfileInfo).catch((err) => console.error(err));
-  userInfo.setUserInfo(profileInfo);
-  editFormPopup.close();
+  api
+    .editUserInfo(newProfileInfo)
+    .then(() => userInfo.setUserInfo(profileInfo))
+    .catch((err) => console.error(err))
+    .finally(() => {
+      renderLoading(
+        false,
+        editPopup.querySelector(config.submitButtonSelector)
+      );
+      editFormPopup.close();
+    });
 }
 
 function handleChangeAvatar(newAvatarImage) {
+  renderLoading(true, avatarPopup.querySelector(config.submitButtonSelector));
   userInfo.changeAvatar(newAvatarImage.avatar);
-  api.changeProfilePicture(newAvatarImage).catch((err) => console.error(err));
-  userInfo.setUserInfo(profileInfo);
-  editAvatarPopup.close();
-  editAvatarPopup.clearForm();
-  formValidators["avatar"].disableSubmitButton();
+  api
+    .changeProfilePicture(newAvatarImage)
+    .then((res) => userInfo.setUserInfo(profileInfo))
+    .catch((err) => console.error(err))
+    .finally(() => {
+      renderLoading(
+        false,
+        avatarPopup.querySelector(config.submitButtonSelector)
+      );
+      editAvatarPopup.close();
+      editAvatarPopup.clearForm();
+      formValidators["avatar"].disableSubmitButton();
+    });
 }
 
 function handleDeleteVerify() {
-  api.deleteCard(cardIdForDeletion).catch((err) => console.error(err));
+  api
+    .deleteCard(cardIdForDeletion)
+    .catch((err) => console.error(err))
+    .finally(() => renderLoading(false));
   cardToDelete.remove();
   deleteVerifyPopup.close();
 }

@@ -49,3 +49,7 @@ export const profileFormInfo = {
 export const editAvatarButton = document.querySelector(
   ".profile__avatar-button"
 );
+
+export const addPopup = document.querySelector("#modal-add");
+export const editPopup = document.querySelector("#modal-edit");
+export const avatarPopup = document.querySelector("#modal-avatar");
