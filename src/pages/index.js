@@ -30,6 +30,10 @@ const api = new Api({
   },
 });
 let userInfo;
+let cardSection;
+let cardIdForDeletion;
+let cardToDelete;
+let buttonText;
 
 api
   .getUserInfo()
@@ -38,8 +42,6 @@ api
     userInfo.setUserInfo(profileInfo);
   })
   .catch((err) => console.error(err));
-
-let cardSection;
 
 api
   .getInitialCards()
@@ -79,9 +81,6 @@ const enableValidation = (config) => {
     validator.enableValidation();
   });
 };
-let cardIdForDeletion;
-let cardToDelete;
-let buttonText;
 
 enableValidation(config);
 
@@ -138,73 +137,58 @@ function createCard(imageInfo) {
   return cardElement;
 }
 
-function renderLoading(isLoading, button) {
-  if (isLoading) {
-    buttonText = button.textContent;
-    button.textContent = "Saving...";
-  } else {
-    button.textContent = buttonText;
-  }
+function handleSubmit(request, popupInstance, loadingText = "Saving...") {
+  popupInstance.renderLoading(true, loadingText);
+  request()
+    .then(() => {
+      popupInstance.close();
+    })
+    .catch(console.error)
+    .finally(() => {
+      popupInstance.renderLoading(false);
+    });
 }
 
 function handleAddImage(imageInfo) {
-  renderLoading(true, addPopup.querySelector(config.submitButtonSelector));
-  api
-    .addCard(imageInfo)
-    .then((res) => {
-      let addedCardElement = createCard(res);
+  function makeRequest() {
+    return api.addCard(imageInfo).then((res) => {
+      const addedCardElement = createCard(res);
       cardSection.addItem(addedCardElement, "prepend");
-    })
-    .catch((err) => console.error(err))
-    .finally(() => {
-      renderLoading(false, addPopup.querySelector(config.submitButtonSelector));
-      addFormPopup.close();
-      addFormPopup.clearForm();
-      formValidators["add"].disableSubmitButton();
     });
+  }
+  handleSubmit(makeRequest, addFormPopup);
+  addFormPopup.clearForm();
+  formValidators["add"].disableSubmitButton();
 }
 
 function handleEditProfile(newProfileInfo) {
-  renderLoading(true, editPopup.querySelector(config.submitButtonSelector));
-  userInfo.changeUserInfo(newProfileInfo);
-  api
-    .editUserInfo(newProfileInfo)
-    .then(() => userInfo.setUserInfo(profileInfo))
-    .catch((err) => console.error(err))
-    .finally(() => {
-      renderLoading(
-        false,
-        editPopup.querySelector(config.submitButtonSelector)
-      );
-      editFormPopup.close();
-    });
+  function makeRequest() {
+    return api
+      .editUserInfo(newProfileInfo)
+      .then(userInfo.changeUserInfo(newProfileInfo))
+      .then(userInfo.setUserInfo(profileInfo));
+  }
+  handleSubmit(makeRequest, editFormPopup);
 }
 
 function handleChangeAvatar(newAvatarImage) {
-  renderLoading(true, avatarPopup.querySelector(config.submitButtonSelector));
-  userInfo.changeAvatar(newAvatarImage.avatar);
-  api
-    .changeProfilePicture(newAvatarImage)
-    .then((res) => userInfo.setUserInfo(profileInfo))
-    .catch((err) => console.error(err))
-    .finally(() => {
-      renderLoading(
-        false,
-        avatarPopup.querySelector(config.submitButtonSelector)
-      );
-      editAvatarPopup.close();
-      editAvatarPopup.clearForm();
-      formValidators["avatar"].disableSubmitButton();
-    });
+  function makeRequest() {
+    return api
+      .changeProfilePicture(newAvatarImage)
+      .then(userInfo.changeAvatar(newAvatarImage.avatar))
+      .then(userInfo.setUserInfo(profileInfo));
+  }
+  handleSubmit(makeRequest, editAvatarPopup);
+  editAvatarPopup.clearForm();
+  formValidators["avatar"].disableSubmitButton();
 }
 
 function handleDeleteVerify() {
   api
     .deleteCard(cardIdForDeletion)
+    .then(cardToDelete.remove())
     .catch((err) => console.error(err))
-    .finally(() => renderLoading(false));
-  cardToDelete.remove();
-  deleteVerifyPopup.close();
+    .finally(deleteVerifyPopup.close());
 }
 
 addButton.addEventListener("click", handleAddClick);
