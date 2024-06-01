@@ -110,18 +110,12 @@ function handleDeletePopup(cardId, evt) {
   cardToDelete = evt.target.closest(".card");
 }
 
-function removeLikeFromServer(cardId, likeButton) {
-  api
-    .removeLikeFromCard(cardId)
-    .then(likeButton.classList.remove("card__liked_active"))
-    .catch((err) => console.error(err));
+function removeLikeFromServer(cardId) {
+  return api.removeLikeFromCard(cardId);
 }
 
-function likeToServer(cardId, likeButton) {
-  api
-    .addLikeToCard(cardId)
-    .then(likeButton.classList.add("card__liked_active"))
-    .catch((err) => console.error(err));
+function sendLikeToServer(cardId) {
+  return api.addLikeToCard(cardId);
 }
 
 function createCard(imageInfo) {
@@ -131,7 +125,7 @@ function createCard(imageInfo) {
     handleImageClick,
     handleDeletePopup,
     removeLikeFromServer,
-    likeToServer
+    sendLikeToServer
   );
   const cardElement = newCard.generateCard();
   return cardElement;
@@ -143,7 +137,7 @@ function handleSubmit(request, popupInstance, loadingText = "Saving...") {
     .then(() => {
       popupInstance.close();
     })
-    .catch(console.error)
+    .catch((err) => console.error(err))
     .finally(() => {
       popupInstance.renderLoading(false);
     });
@@ -151,22 +145,24 @@ function handleSubmit(request, popupInstance, loadingText = "Saving...") {
 
 function handleAddImage(imageInfo) {
   function makeRequest() {
-    return api.addCard(imageInfo).then((res) => {
-      const addedCardElement = createCard(res);
-      cardSection.addItem(addedCardElement, "prepend");
-    });
+    return api
+      .addCard(imageInfo)
+      .then((res) => {
+        const addedCardElement = createCard(res);
+        cardSection.addItem(addedCardElement, "prepend");
+      })
+      .then(() => addFormPopup.clearForm())
+      .then(() => formValidators["add"].disableSubmitButton());
   }
   handleSubmit(makeRequest, addFormPopup);
-  addFormPopup.clearForm();
-  formValidators["add"].disableSubmitButton();
 }
 
 function handleEditProfile(newProfileInfo) {
   function makeRequest() {
     return api
       .editUserInfo(newProfileInfo)
-      .then(userInfo.changeUserInfo(newProfileInfo))
-      .then(userInfo.setUserInfo(profileInfo));
+      .then(() => userInfo.changeUserInfo(newProfileInfo))
+      .then(() => userInfo.setUserInfo(profileInfo));
   }
   handleSubmit(makeRequest, editFormPopup);
 }
@@ -175,20 +171,20 @@ function handleChangeAvatar(newAvatarImage) {
   function makeRequest() {
     return api
       .changeProfilePicture(newAvatarImage)
-      .then(userInfo.changeAvatar(newAvatarImage.avatar))
-      .then(userInfo.setUserInfo(profileInfo));
+      .then(() => userInfo.changeAvatar(newAvatarImage.avatar))
+      .then(() => userInfo.setUserInfo(profileInfo))
+      .then(() => editAvatarPopup.clearForm())
+      .then(() => formValidators["avatar"].disableSubmitButton());
   }
   handleSubmit(makeRequest, editAvatarPopup);
-  editAvatarPopup.clearForm();
-  formValidators["avatar"].disableSubmitButton();
 }
 
 function handleDeleteVerify() {
   api
     .deleteCard(cardIdForDeletion)
-    .then(cardToDelete.remove())
-    .catch((err) => console.error(err))
-    .finally(deleteVerifyPopup.close());
+    .then(() => cardToDelete.remove())
+    .then(() => deleteVerifyPopup.close())
+    .catch((err) => console.error(err));
 }
 
 addButton.addEventListener("click", handleAddClick);

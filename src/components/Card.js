@@ -5,7 +5,7 @@ export default class Card {
     clickFunction,
     deleteFunction,
     removeLikeFromServer,
-    likeToServer
+    sendLikeToServer
   ) {
     this._name = data.name;
     this._link = data.link;
@@ -15,7 +15,7 @@ export default class Card {
     this._clickFunction = clickFunction;
     this._deleteFunction = deleteFunction;
     this._removeLikeFromServer = removeLikeFromServer;
-    this._likeToServer = likeToServer;
+    this._sendLikeToServer = sendLikeToServer;
     this._cardTemplate = document.querySelector(
       this._cardSelector
     ).content.firstElementChild;
@@ -23,9 +23,13 @@ export default class Card {
 
   _handleLikeClick() {
     if (this.cardElement.querySelector(".card__liked_active")) {
-      this._removeLikeFromServer(this.id, this._likeButton);
+      this._removeLikeFromServer(this.id)
+        .then(() => this._likeButton.classList.remove("card__liked_active"))
+        .catch((err) => console.error(err));
     } else {
-      this._likeToServer(this.id, this._likeButton);
+      this._sendLikeToServer(this.id)
+        .then(() => this._likeButton.classList.add("card__liked_active"))
+        .catch((err) => console.error(err));
     }
   }
 
@@ -61,5 +65,17 @@ export default class Card {
     this._setEventListeners();
 
     return this.cardElement;
+  }
+
+  _addLike() {
+    this._sendLikeToServer(this.id)
+      .then(() => this._likeButton.classList.add("card__liked_active"))
+      .catch((err) => console.error(err));
+  }
+
+  _removeLike() {
+    this._removeLikeFromServer(this.id)
+      .then(() => this._likeButton.classList.remove("card__liked_active"))
+      .catch((err) => console.error(err));
   }
 }
