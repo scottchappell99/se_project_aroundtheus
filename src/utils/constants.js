@@ -38,9 +38,18 @@ export const addButton = document.querySelector(".profile__add-button");
 export const editButton = document.querySelector(".profile__edit-button");
 export const profileInfo = {
   name: document.querySelector(".profile__name"),
-  subtitle: document.querySelector(".profile__subtitle"),
+  about: document.querySelector(".profile__subtitle"),
+  avatar: document.querySelector(".profile__avatar"),
 };
 export const profileFormInfo = {
   name: document.querySelector(".modal__name"),
-  subtitle: document.querySelector(".modal__subtitle"),
+  about: document.querySelector(".modal__subtitle"),
 };
+
+export const editAvatarButton = document.querySelector(
+  ".profile__avatar-button"
+);
+
+export const addPopup = document.querySelector("#modal-add");
+export const editPopup = document.querySelector("#modal-edit");
+export const avatarPopup = document.querySelector("#modal-avatar");

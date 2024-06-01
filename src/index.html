@@ -22,11 +22,14 @@
       </header>
       <main class="content">
         <section class="profile">
-          <img
-            src="<%=require('./images/jacques-cousteau.jpg')%>"
-            alt="Profile picture of Jacques Cousteau wearing a red beanie and smiling"
-            class="profile__avatar"
-          />
+          <div class="profile__avatar-container">
+            <img
+              src="<%=require('./images/jacques-cousteau.jpg')%>"
+              alt="Profile picture of Jacques Cousteau wearing a red beanie and smiling"
+              class="profile__avatar"
+            />
+            <button class="profile__avatar-button"></button>
+          </div>
           <div class="profile__information">
             <h1 class="profile__name">Jacques Cousteau</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -75,7 +78,7 @@
               type="text"
               value=""
               id="subtitle"
-              name="subtitle"
+              name="about"
               class="modal__input modal__subtitle"
               minlength="2"
               maxlength="400"
@@ -136,6 +139,39 @@
         ></button>
         <img src="none" alt="" class="modal__image" />
         <h2 class="modal__text"></h2>
+      </div>
+    </div>
+    <div class="modal" id="modal-delete">
+      <div class="modal__container">
+        <button class="modal__close" type="button"></button>
+        <h2 class="modal__title modal__verify">Are you sure?</h2>
+        <form class="modal__form" id="picture-delete" name="delete">
+          <button class="modal__button modal__verify-button" type="submit">
+            Yes
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="modal" id="modal-avatar">
+      <div class="modal__container">
+        <button class="modal__close" type="button"></button>
+        <h2 class="modal__title">Change profile picture</h2>
+        <form class="modal__form" id="avatar-edit" name="avatar">
+          <label class="modal__label">
+            <input
+              type="url"
+              value="https://somewebsite.com/someimage.jpg"
+              name="avatar"
+              id="avatar-image"
+              class="modal__input modal__avatar_image"
+              required
+            />
+            <span class="modal__error" id="avatar-image-error"></span>
+          </label>
+          <button class="modal__button modal__disabled" type="submit" disabled>
+            Save
+          </button>
+        </form>
       </div>
     </div>
   </body>
